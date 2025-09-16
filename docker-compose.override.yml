@@ -1,0 +1,45 @@
+# Override file for local development
+# This file is automatically merged with docker-compose.yml
+
+version: '3.8'
+
+services:
+  app:
+    # Override for local development
+    environment:
+      - NODE_ENV=development
+      - ENABLE_DETAILED_LOGGING=true
+    # Mount source code for hot reloading
+    volumes:
+      - .:/app:cached
+      - /app/node_modules
+      - /app/.next
+
+  postgres:
+    # Use different database for local development
+    environment:
+      - POSTGRES_DB=cyberpunk_dashboard_local
+      - POSTGRES_USER=local_user
+      - POSTGRES_PASSWORD=local_password
+    # Mount scripts for database initialization
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d:ro
+
+  # Add local development tools
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=dev@cyberpunk.dev
+      - PGADMIN_DEFAULT_PASSWORD=dev123
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    profiles:
+      - dev-tools
+
+volumes:
+  pgadmin_data:

@@ -1,0 +1,43 @@
+# Development Dockerfile for Cyberpunk Dashboard
+FROM node:18-alpine
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Install system dependencies for development
+RUN apk add --no-cache \
+    git \
+    curl \
+    vim \
+    htop \
+    && rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install all dependencies (including dev dependencies)
+RUN pnpm install
+
+# Copy source code
+COPY . .
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# Change ownership of app directory
+RUN chown -R nextjs:nodejs /app
+USER nextjs
+
+# Expose port
+EXPOSE 3000
+
+# Set environment variables
+ENV PORT=3000
+ENV NODE_ENV=development
+
+# Default command
+CMD ["pnpm", "dev"]

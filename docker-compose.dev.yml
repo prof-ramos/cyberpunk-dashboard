@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # Cyberpunk Dashboard - Development
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      # Database
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      # API Keys
+      - ADMIN_API_KEY=${ADMIN_API_KEY}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - WEBHOOK_API_KEY=${WEBHOOK_API_KEY}
+      # Development settings
+      - ENABLE_BACKGROUND_JOBS=false
+      - ENABLE_DETAILED_LOGGING=true
+    command: pnpm dev
+    restart: unless-stopped
+
+  # PostgreSQL Database - Development
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=cyberpunk_dashboard_dev
+      - POSTGRES_USER=cyberpunk_dev
+      - POSTGRES_PASSWORD=dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyberpunk_dev -d cyberpunk_dashboard_dev"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis - Development
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+
+  # pgAdmin - Database Management (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@cyberpunk.dev
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    profiles:
+      - dev-tools
+
+  # MailHog - Email Testing (optional)
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web interface
+    restart: unless-stopped
+    profiles:
+      - dev-tools
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+
+networks:
+  default:
+    name: cyberpunk_dev_network
