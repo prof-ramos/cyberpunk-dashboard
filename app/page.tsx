@@ -1,17 +1,42 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight, Monitor, Settings, Shield, Target, Users, Bell, RefreshCw } from "lucide-react"
+import { ChevronRight, BarChart3, BookOpen, ClipboardList, FileText, Settings, Bell, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import CommandCenterPage from "./command-center/page"
-import AgentNetworkPage from "./agent-network/page"
-import OperationsPage from "./operations/page"
-import IntelligencePage from "./intelligence/page"
-import SystemsPage from "./systems/page"
+import PainelGeral from "./painel-geral/page"
+import Materias from "./materias/page"
+import Simulados from "./simulados/page"
+import Cronograma from "./cronograma/page"
+import Desempenho from "./desempenho/page"
 
-export default function TacticalDashboard() {
-  const [activeSection, setActiveSection] = useState("overview")
+export default function StudyDashboard() {
+  const [activeSection, setActiveSection] = useState("painel")
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+
+  const navItems = [
+    { id: "painel", icon: BarChart3, label: "PAINEL GERAL" },
+    { id: "materias", icon: BookOpen, label: "MATÉRIAS" },
+    { id: "simulados", icon: ClipboardList, label: "SIMULADOS" },
+    { id: "cronograma", icon: FileText, label: "CRONOGRAMA" },
+    { id: "desempenho", icon: Settings, label: "DESEMPENHO" },
+  ]
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "painel":
+        return <PainelGeral />
+      case "materias":
+        return <Materias />
+      case "simulados":
+        return <Simulados />
+      case "cronograma":
+        return <Cronograma />
+      case "desempenho":
+        return <Desempenho />
+      default:
+        return <PainelGeral />
+    }
+  }
 
   return (
     <div className="flex h-screen">
@@ -22,8 +47,8 @@ export default function TacticalDashboard() {
         <div className="p-4">
           <div className="flex items-center justify-between mb-8">
             <div className={`${sidebarCollapsed ? "hidden" : "block"}`}>
-              <h1 className="text-orange-500 font-bold text-lg tracking-wider">TACTICAL OPS</h1>
-              <p className="text-neutral-500 text-xs">v2.1.7 CLASSIFIED</p>
+              <h1 className="text-orange-500 font-bold text-lg tracking-wider">ESTUDOS</h1>
+              <p className="text-neutral-500 text-xs">Concurso 2026</p>
             </div>
             <Button
               variant="ghost"
@@ -38,13 +63,7 @@ export default function TacticalDashboard() {
           </div>
 
           <nav className="space-y-2">
-            {[
-              { id: "overview", icon: Monitor, label: "COMMAND CENTER" },
-              { id: "agents", icon: Users, label: "AGENT NETWORK" },
-              { id: "operations", icon: Target, label: "OPERATIONS" },
-              { id: "intelligence", icon: Shield, label: "INTELLIGENCE" },
-              { id: "systems", icon: Settings, label: "SYSTEMS" },
-            ].map((item) => (
+            {navItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => setActiveSection(item.id)}
@@ -63,13 +82,13 @@ export default function TacticalDashboard() {
           {!sidebarCollapsed && (
             <div className="mt-8 p-4 bg-neutral-800 border border-neutral-700 rounded">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                <span className="text-xs text-white">SYSTEM ONLINE</span>
+                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-white">ESTUDANDO</span>
               </div>
               <div className="text-xs text-neutral-500">
-                <div>UPTIME: 72:14:33</div>
-                <div>AGENTS: 847 ACTIVE</div>
-                <div>MISSIONS: 23 ONGOING</div>
+                <div>HOJE: 4h32min</div>
+                <div>SEMANA: 28h15min</div>
+                <div>SEQUÊNCIA: 47 dias</div>
               </div>
             </div>
           )}
@@ -82,16 +101,18 @@ export default function TacticalDashboard() {
       )}
 
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col ${!sidebarCollapsed ? "md:ml-0" : ""}`}>
+      <div className="flex-1 flex flex-col">
         {/* Top Toolbar */}
         <div className="h-16 bg-neutral-800 border-b border-neutral-700 flex items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <div className="text-sm text-neutral-400">
-              TACTICAL COMMAND / <span className="text-orange-500">OVERVIEW</span>
+              ESTUDOS / <span className="text-orange-500">{navItems.find(n => n.id === activeSection)?.label || "PAINEL GERAL"}</span>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-xs text-neutral-500">LAST UPDATE: 05/06/2025 20:00 UTC</div>
+            <div className="text-xs text-neutral-500">
+              {new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }).toUpperCase()}
+            </div>
             <Button variant="ghost" size="icon" className="text-neutral-400 hover:text-orange-500">
               <Bell className="w-4 h-4" />
             </Button>
@@ -103,11 +124,7 @@ export default function TacticalDashboard() {
 
         {/* Dashboard Content */}
         <div className="flex-1 overflow-auto">
-          {activeSection === "overview" && <CommandCenterPage />}
-          {activeSection === "agents" && <AgentNetworkPage />}
-          {activeSection === "operations" && <OperationsPage />}
-          {activeSection === "intelligence" && <IntelligencePage />}
-          {activeSection === "systems" && <SystemsPage />}
+          {renderContent()}
         </div>
       </div>
     </div>

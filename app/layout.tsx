@@ -6,9 +6,8 @@ import "./globals.css"
 const geistMono = GeistMono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Tactical Operations Dashboard",
-  description: "Tactical command and control system",
-    generator: 'v0.app'
+  title: "Dashboard de Estudos — Concurso",
+  description: "Painel de controle para estudos de concursos públicos",
 }
 
 export default function RootLayout({
@@ -17,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
+    <html lang="pt-BR">
       <body className={`${geistMono.className} bg-black text-white antialiased`}>{children}</body>
     </html>
   )
