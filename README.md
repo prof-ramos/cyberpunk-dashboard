@@ -1,4 +1,6 @@
-# v0-cyberpunk-dashboard-design
+> [!NOTE]
+> **Status do portfólio:** este é o repositório canônico ativo. Predecessor(es) arquivado(s): [dashboard-cyber](https://github.com/prof-ramos/dashboard-cyber). Os históricos permanecem disponíveis somente para leitura.
+<!-- PORTFOLIO_STATUS: canonical; predecessors=dashboard-cyber --># v0-cyberpunk-dashboard-design
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
 
