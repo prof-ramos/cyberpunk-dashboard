@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Filter, MoreHorizontal, MapPin, Clock } from "lucide-react"
+import { Search, Filter, MoreHorizontal, MapPin, Clock, UserPlus } from "lucide-react"
 import { INITIAL_AGENTS } from "@/data/agents"
 import type { Agent } from "@/types/agent"
 import {
@@ -32,88 +32,100 @@ export function AgentNetworkView() {
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
         <div className="flex gap-2 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-80">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-500" />
             <Input
-              placeholder="Buscar agentes por nome, ID ou localização..."
+              placeholder="Localizar ativo por codinome, ID ou setor..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 bg-neutral-900 border-neutral-700 text-white placeholder-neutral-500 focus:border-orange-500"
+              className="pl-9 bg-tactical-void border-tactical-border text-white placeholder-neutral-500 focus:border-tactical-amber font-mono text-xs"
             />
           </div>
           <Button
             variant="outline"
-            className="border-neutral-700 text-neutral-400 hover:bg-neutral-800 hover:text-neutral-300 bg-transparent"
+            className="border-tactical-border text-neutral-400 hover:bg-tactical-chassisMuted hover:text-white bg-tactical-void text-xs font-mono"
           >
-            <Filter className="w-4 h-4 mr-2" />
-            Filtros
+            <Filter className="w-3.5 h-3.5 mr-2 text-tactical-amber" />
+            PARÂMETROS
           </Button>
         </div>
         <div className="flex gap-2">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white">Novo Agente</Button>
+          <Button className="bg-tactical-amber hover:bg-tactical-amberGlow text-black font-display font-bold tracking-wider text-xs tactical-chamfer-button shadow-[0_0_12px_rgba(255,159,28,0.3)]">
+            <UserPlus className="w-3.5 h-3.5 mr-1.5" />
+            CADASTRAR ATIVO DE CAMPO
+          </Button>
         </div>
       </div>
 
       {/* Agents Table */}
-      <Card className="bg-neutral-900 border-neutral-700">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">
-            REDE DE AGENTES ATIVOS ({filteredAgents.length})
-          </CardTitle>
+      <Card className="bg-tactical-chassis border-tactical-border tactical-chamfer-corner shadow-lg">
+        <CardHeader className="pb-3 border-b border-tactical-border/60">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-xs font-display font-bold text-tactical-amber tracking-widest uppercase">
+              REDE DE ATIVOS DE OPERAÇÃO ({filteredAgents.length})
+            </CardTitle>
+            <span className="text-[10px] text-neutral-500 font-mono">CANAL SEGURO: OK</span>
+          </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-2">
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-neutral-800 text-left">
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">ID</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">NOME</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">STATUS</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">LOCALIZAÇÃO</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">VISTO POR ÚLTIMO</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">MISSÕES</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">RISCO</th>
-                  <th className="py-3 px-4 text-xs font-medium text-neutral-400 tracking-wider">AÇÕES</th>
+                <tr className="border-b border-tactical-border text-[11px] font-display tracking-wider text-neutral-400 uppercase">
+                  <th className="py-3 px-4">CODINOME / ID</th>
+                  <th className="py-3 px-4">IDENTIDADE</th>
+                  <th className="py-3 px-4">ESTADO</th>
+                  <th className="py-3 px-4">SETOR</th>
+                  <th className="py-3 px-4">ÚLTIMO CHECK-IN</th>
+                  <th className="py-3 px-4">MISSÕES</th>
+                  <th className="py-3 px-4">ÍNDICE DE RISCO</th>
+                  <th className="py-3 px-4 text-right">TELEMETRIA</th>
                 </tr>
               </thead>
-              <tbody>
-                {filteredAgents.map((agent, index) => (
+              <tbody className="divide-y divide-tactical-border/40 font-mono">
+                {filteredAgents.map((agent) => (
                   <tr
                     key={agent.id}
-                    className={`border-b border-neutral-800 hover:bg-neutral-800 transition-colors cursor-pointer ${
-                      index % 2 === 0 ? "bg-neutral-900" : "bg-neutral-850"
-                    }`}
+                    className="hover:bg-tactical-chassisMuted/60 transition-colors cursor-pointer text-xs"
                     onClick={() => setSelectedAgent(agent)}
                   >
-                    <td className="py-3 px-4 text-sm text-white font-mono">{agent.id}</td>
-                    <td className="py-3 px-4 text-sm text-white">{agent.name}</td>
+                    <td className="py-3 px-4 font-bold text-tactical-amber">{agent.id}</td>
+                    <td className="py-3 px-4 font-sans font-medium text-white">{agent.name}</td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
                         <div className={`w-2 h-2 rounded-full ${getAgentStatusDotClass(agent.status)}`} />
-                        <span className="text-xs text-neutral-300 uppercase tracking-wider">
+                        <span className="text-[11px] text-neutral-300 uppercase tracking-wider">
                           {AGENT_STATUS_LABELS[agent.status]}
                         </span>
                       </div>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-3 h-3 text-neutral-400" />
-                        <span className="text-sm text-neutral-300">{agent.location}</span>
+                      <div className="flex items-center gap-1.5 text-neutral-300">
+                        <MapPin className="w-3 h-3 text-neutral-500" />
+                        <span>{agent.location}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-3 h-3 text-neutral-400" />
-                        <span className="text-sm text-neutral-300 font-mono">{agent.lastSeen}</span>
+                    <td className="py-3 px-4 text-neutral-400">
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3 h-3 text-neutral-500" />
+                        <span>{agent.lastSeen}</span>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-sm text-white font-mono">{agent.missions}</td>
+                    <td className="py-3 px-4 font-bold text-white">{agent.missions}</td>
                     <td className="py-3 px-4">
-                      <span className={`text-xs px-2 py-1 rounded uppercase tracking-wider border font-medium ${getRiskBadgeClass(agent.risk)}`}>
+                      <span
+                        className={`text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider border ${getRiskBadgeClass(
+                          agent.risk
+                        )}`}
+                      >
                         {RISK_LEVEL_LABELS[agent.risk]}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
-                      <Button variant="ghost" size="icon" className="text-neutral-400 hover:text-orange-500">
+                    <td className="py-3 px-4 text-right">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-neutral-400 hover:text-tactical-amber hover:bg-tactical-void"
+                      >
                         <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </td>

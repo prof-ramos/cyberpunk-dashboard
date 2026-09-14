@@ -20,17 +20,19 @@ export function OperationDetailModal({ operation, onClose }: OperationDetailModa
   if (!operation) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-      <Card className="bg-neutral-900 border-neutral-700 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
-        <CardHeader className="flex flex-row items-center justify-between border-b border-neutral-800 pb-4">
+    <div className="fixed inset-0 bg-tactical-void/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+      <Card className="bg-tactical-chassis border-tactical-border w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl tactical-chamfer-corner">
+        <CardHeader className="flex flex-row items-center justify-between border-b border-tactical-border/60 pb-4">
           <div>
-            <CardTitle className="text-xl font-bold text-white tracking-wider">{operation.name}</CardTitle>
-            <p className="text-sm text-neutral-400 font-mono">{operation.id}</p>
+            <CardTitle className="text-base font-display font-bold text-tactical-amber tracking-widest uppercase">
+              OPERAÇÃO // {operation.name}
+            </CardTitle>
+            <p className="text-xs text-neutral-400 font-mono mt-0.5">CODE: {operation.id}</p>
           </div>
           <Button
             variant="ghost"
             onClick={onClose}
-            className="text-neutral-400 hover:text-white hover:bg-neutral-800"
+            className="text-neutral-400 hover:text-tactical-amber hover:bg-tactical-chassisMuted h-8 w-8"
             aria-label="Fechar detalhes da operação"
           >
             ✕

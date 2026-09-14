@@ -63,6 +63,22 @@ const config: Config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        tactical: {
+          void: '#0a0c0e',
+          chassis: '#13171b',
+          chassisMuted: '#1a2026',
+          border: '#232a31',
+          borderBright: '#323c46',
+          amber: '#ff9f1c',
+          amberGlow: '#ffb247',
+          cyan: '#00f0ff',
+          crimson: '#ff3344',
+          emerald: '#00e5a3',
+        },
+      },
+      fontFamily: {
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       borderRadius: {
         lg: 'var(--radius)',

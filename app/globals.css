@@ -6,79 +6,114 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Tactical military chamfers */
+  .tactical-chamfer {
+    clip-path: polygon(
+      0 8px,
+      8px 0,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% calc(100% - 8px),
+      calc(100% - 8px) 100%,
+      8px 100%,
+      0 calc(100% - 8px)
+    );
+  }
+
+  .tactical-chamfer-corner {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      12px 100%,
+      0 calc(100% - 12px)
+    );
+  }
+
+  .tactical-chamfer-button {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% 100%,
+      8px 100%,
+      0 calc(100% - 8px)
+    );
+  }
+
+  /* Tactical grid matrix background */
+  .tactical-grid-bg {
+    background-size: 24px 24px;
+    background-image: 
+      linear-gradient(to right, rgba(35, 42, 49, 0.35) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(35, 42, 49, 0.35) 1px, transparent 1px);
+  }
+
+  /* Tactical Phosphor Glows */
+  .tactical-glow-amber {
+    box-shadow: 0 0 16px -2px rgba(255, 159, 28, 0.35);
+  }
+
+  .tactical-glow-cyan {
+    box-shadow: 0 0 16px -2px rgba(0, 240, 255, 0.35);
+  }
+
+  .tactical-glow-crimson {
+    box-shadow: 0 0 16px -2px rgba(255, 51, 68, 0.35);
+  }
+
+  .tactical-scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.3)
+    );
+    background-size: 100% 4px;
+  }
 }
 
 @layer base {
-  :root {
-    --font-sans: var(--font-geist-sans);
-    --font-mono: var(--font-geist-mono);
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+  :root,
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --font-sans: var(--font-display);
+    --font-mono: var(--font-mono);
+    --background: 210 17% 5%; /* Carbon Void #0a0c0e */
+    --foreground: 210 20% 98%;
+    --card: 207 17% 9%; /* Chassis Slate #13171b */
+    --card-foreground: 210 20% 98%;
+    --popover: 207 17% 9%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 35 100% 55%; /* Amber CRT #ff9f1c */
+    --primary-foreground: 210 17% 5%;
+    --secondary: 211 17% 13%; /* Chassis Muted #1a2026 */
+    --secondary-foreground: 210 20% 98%;
+    --muted: 211 17% 13%;
+    --muted-foreground: 215 14% 60%;
+    --accent: 184 100% 50%; /* Telluric Cyan #00f0ff */
+    --accent-foreground: 210 17% 5%;
+    --destructive: 355 100% 60%; /* Breach Crimson #ff3344 */
+    --destructive-foreground: 210 20% 98%;
+    --border: 211 17% 18%; /* Chassis Border #232a31 */
+    --input: 211 17% 18%;
+    --ring: 35 100% 55%;
+    --chart-1: 35 100% 55%;
+    --chart-2: 184 100% 50%;
+    --chart-3: 155 100% 45%;
+    --chart-4: 355 100% 60%;
+    --chart-5: 280 65% 60%;
+    --radius: 0.25rem;
+    --sidebar-background: 207 17% 8%;
+    --sidebar-foreground: 210 14% 80%;
+    --sidebar-primary: 35 100% 55%;
+    --sidebar-primary-foreground: 210 17% 5%;
+    --sidebar-accent: 211 17% 14%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 211 17% 18%;
+    --sidebar-ring: 35 100% 55%;
   }
 }
 
