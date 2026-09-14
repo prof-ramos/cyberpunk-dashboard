@@ -2,38 +2,61 @@
 > **Status do portfólio:** este é o repositório canônico ativo. Predecessor(es) arquivado(s): [dashboard-cyber](https://github.com/prof-ramos/dashboard-cyber). Os históricos permanecem disponíveis somente para leitura.
 <!-- PORTFOLIO_STATUS: canonical; predecessors=dashboard-cyber -->
 
-# v0-cyberpunk-dashboard-design
+# Cyberpunk Dashboard
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+Interface de comando e controle em estilo cyberpunk/sci-fi construída com Next.js 15 (App Router), React 19, TypeScript e Tailwind CSS.
 
-## Built with v0
+## 🚀 Tecnologias e Arquitetura
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+- **Framework**: Next.js 15 (App Router) + React 19
+- **Tipagem**: TypeScript 5 com compilação estrita (sem `ignoreBuildErrors`)
+- **Estilização**: Tailwind CSS v3 + CSS custom properties (paleta cyberpunk âmbar/ciano/neon)
+- **Componentes**: Primitivas acessíveis baseadas em Radix UI (shadcn/ui new-york)
+- **Ícones**: Lucide React
+- **Testes**: Suíte unitária nativa em Node.js (`node --test`) de alta velocidade e zero dependências externas
+- **Performance & RUM**: `@vercel/speed-insights` integrado e suite de auditoria contínua via Lighthouse CI
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_SuAUmv7h95pzOjyyssEt4mWOJaEd)
-
-## Getting Started
-
-First, run the development server:
+## 🛠️ Comandos Disponíveis
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Instalar dependências
+pnpm install
+
+# Iniciar servidor de desenvolvimento local
 pnpm dev
+
+# Executar checagem estrita de tipos TypeScript
+pnpm typecheck
+
+# Executar suíte de testes unitários automatizados
+pnpm test
+
+# Gerar build otimizado de produção
+pnpm build
+
+# Servir build de produção localmente
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estrutura do Projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-## Learn More
-
-To learn more, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
-
-<a href="https://v0.app/chat/api/kiro/clone/prof-ramos/v0-cyberpunk-dashboard-design" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+```
+cyberpunk-dashboard/
+├── app/                      # Rotas Next.js App Router (URLs canônicas e views diretas)
+│   ├── agent-network/        # Rota direta: /agent-network
+│   ├── command-center/       # Rota direta: /command-center
+│   ├── intelligence/         # Rota direta: /intelligence
+│   ├── operations/           # Rota direta: /operations
+│   ├── systems/              # Rota direta: /systems
+│   ├── layout.tsx            # Root layout e Speed Insights
+│   └── page.tsx              # Dashboard centralizado
+├── components/
+│   ├── dashboard/            # Shell do dashboard, modais de detalhe e views modulares
+│   │   ├── views/            # Componentes de visualização desacoplados
+│   │   └── dashboard-shell.tsx # Shell de navegação responsivo
+│   └── ui/                   # Primitivas de UI (shadcn/ui)
+├── data/                     # Datasets de dados mock desacoplados da apresentação
+├── lib/                      # Utilitários gerais e helpers tipados de status/badges
+├── tests/                    # Suíte de testes unitários (invariantes, helpers, filtros)
+└── types/                    # Modelos canônicos de domínio e discriminated unions
+```
