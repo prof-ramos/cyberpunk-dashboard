@@ -1,8 +1,12 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { INITIAL_ACTIVITY_LOGS, INITIAL_AGENTS, INITIAL_MISSION_STATS } from "@/data"
+import { getAgentStatusDotClass } from "@/lib/status-helpers"
 
 export default function CommandCenterPage() {
+  const topAgents = INITIAL_AGENTS.slice(0, 4)
+
   return (
     <div className="p-6 space-y-6">
       {/* Main Dashboard Grid */}
@@ -10,45 +14,32 @@ export default function CommandCenterPage() {
         {/* Agent Status Overview */}
         <Card className="lg:col-span-4 bg-neutral-900 border-neutral-700">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">AGENT ALLOCATION</CardTitle>
+            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">ALOCAÇÃO DE AGENTES</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
                 <div className="text-2xl font-bold text-white font-mono">190</div>
-                <div className="text-xs text-neutral-500">Active Field</div>
+                <div className="text-xs text-neutral-500">Em campo</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white font-mono">990</div>
-                <div className="text-xs text-neutral-500">Undercover</div>
+                <div className="text-xs text-neutral-500">Encoberto</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-white font-mono">290</div>
-                <div className="text-xs text-neutral-500">Training</div>
+                <div className="text-xs text-neutral-500">Treinamento</div>
               </div>
             </div>
 
             <div className="space-y-2">
-              {[
-                { id: "G-078W", name: "VENGEFUL SPIRIT", status: "active" },
-                { id: "G-079X", name: "OBSIDIAN SENTINEL", status: "standby" },
-                { id: "G-080Y", name: "GHOSTLY FURY", status: "active" },
-                { id: "G-081Z", name: "CURSED REVENANT", status: "compromised" },
-              ].map((agent) => (
+              {topAgents.map((agent) => (
                 <div
                   key={agent.id}
                   className="flex items-center justify-between p-2 bg-neutral-800 rounded hover:bg-neutral-700 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        agent.status === "active"
-                          ? "bg-white"
-                          : agent.status === "standby"
-                            ? "bg-neutral-500"
-                            : "bg-red-500"
-                      }`}
-                    ></div>
+                    <div className={`w-2 h-2 rounded-full ${getAgentStatusDotClass(agent.status)}`} />
                     <div>
                       <div className="text-xs text-white font-mono">{agent.id}</div>
                       <div className="text-xs text-neutral-500">{agent.name}</div>
@@ -63,59 +54,23 @@ export default function CommandCenterPage() {
         {/* Activity Log */}
         <Card className="lg:col-span-4 bg-neutral-900 border-neutral-700">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">ACTIVITY LOG</CardTitle>
+            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">REGISTRO DE ATIVIDADES</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-80 overflow-y-auto">
-              {[
-                {
-                  time: "25/06/2025 09:29",
-                  agent: "gh0st_Fire",
-                  action: "completed mission in",
-                  location: "Berlin",
-                  target: "zer0_Nigh",
-                },
-                {
-                  time: "25/06/2025 08:12",
-                  agent: "dr4g0n_V3in",
-                  action: "extracted high-value target in",
-                  location: "Cairo",
-                  target: null,
-                },
-                {
-                  time: "24/06/2025 22:55",
-                  agent: "sn4ke_Sh4de",
-                  action: "lost communication in",
-                  location: "Havana",
-                  target: null,
-                },
-                {
-                  time: "24/06/2025 21:33",
-                  agent: "ph4nt0m_R4ven",
-                  action: "initiated surveillance in",
-                  location: "Tokyo",
-                  target: null,
-                },
-                {
-                  time: "24/06/2025 19:45",
-                  agent: "v0id_Walk3r",
-                  action: "compromised security in",
-                  location: "Moscow",
-                  target: "d4rk_M4trix",
-                },
-              ].map((log, index) => (
+              {INITIAL_ACTIVITY_LOGS.map((log, index) => (
                 <div
                   key={index}
                   className="text-xs border-l-2 border-orange-500 pl-3 hover:bg-neutral-800 p-2 rounded transition-colors"
                 >
                   <div className="text-neutral-500 font-mono">{log.time}</div>
                   <div className="text-white">
-                    Agent <span className="text-orange-500 font-mono">{log.agent}</span> {log.action}{" "}
+                    Agente <span className="text-orange-500 font-mono">{log.agent}</span> {log.action}{" "}
                     <span className="text-white font-mono">{log.location}</span>
                     {log.target && (
                       <span>
                         {" "}
-                        with agent <span className="text-orange-500 font-mono">{log.target}</span>
+                        com o agente <span className="text-orange-500 font-mono">{log.target}</span>
                       </span>
                     )}
                   </div>
@@ -129,7 +84,7 @@ export default function CommandCenterPage() {
         <Card className="lg:col-span-4 bg-neutral-900 border-neutral-700">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">
-              ENCRYPTED CHAT ACTIVITY
+              ATIVIDADE DE CHAT CRIPTOGRAFADO
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col items-center">
@@ -165,7 +120,7 @@ export default function CommandCenterPage() {
         <Card className="lg:col-span-8 bg-neutral-900 border-neutral-700">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">
-              MISSION ACTIVITY OVERVIEW
+              VISÃO GERAL DE ATIVIDADES DE MISSÃO
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -204,8 +159,8 @@ export default function CommandCenterPage() {
 
               {/* X-axis labels */}
               <div className="absolute bottom-0 left-0 w-full flex justify-between text-xs text-neutral-500 -mb-6 font-mono">
-                <span>Jan 28, 2025</span>
-                <span>Feb 28, 2025</span>
+                <span>28 Jan 2025</span>
+                <span>28 Fev 2025</span>
               </div>
             </div>
           </CardContent>
@@ -214,27 +169,27 @@ export default function CommandCenterPage() {
         {/* Mission Information */}
         <Card className="lg:col-span-4 bg-neutral-900 border-neutral-700">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">MISSION INFORMATION</CardTitle>
+            <CardTitle className="text-sm font-medium text-neutral-300 tracking-wider">INFORMAÇÕES DA MISSÃO</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-xs text-white font-medium">Successful Missions</span>
+                  <span className="text-xs text-white font-medium">Missões bem-sucedidas</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">High Risk Mission</span>
-                    <span className="text-white font-bold font-mono">190</span>
+                    <span className="text-neutral-400">Missão de risco alto</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.successful.highRisk}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">Medium Risk Mission</span>
-                    <span className="text-white font-bold font-mono">426</span>
+                    <span className="text-neutral-400">Missão de risco médio</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.successful.mediumRisk}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">Low Risk Mission</span>
-                    <span className="text-white font-bold font-mono">920</span>
+                    <span className="text-neutral-400">Missão de risco baixo</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.successful.lowRisk}</span>
                   </div>
                 </div>
               </div>
@@ -242,20 +197,20 @@ export default function CommandCenterPage() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <span className="text-xs text-red-500 font-medium">Failed Missions</span>
+                  <span className="text-xs text-red-500 font-medium">Missões falhas</span>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">High Risk Mission</span>
-                    <span className="text-white font-bold font-mono">190</span>
+                    <span className="text-neutral-400">Missão de risco alto</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.failed.highRisk}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">Medium Risk Mission</span>
-                    <span className="text-white font-bold font-mono">426</span>
+                    <span className="text-neutral-400">Missão de risco médio</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.failed.mediumRisk}</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-neutral-400">Low Risk Mission</span>
-                    <span className="text-white font-bold font-mono">920</span>
+                    <span className="text-neutral-400">Missão de risco baixo</span>
+                    <span className="text-white font-bold font-mono">{INITIAL_MISSION_STATS.failed.lowRisk}</span>
                   </div>
                 </div>
               </div>
